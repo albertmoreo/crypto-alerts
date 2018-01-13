@@ -1,7 +1,6 @@
 # Crypto-Alerts
 
-Analisys of main indicators to receive Email, Slack and SMS alerts to buy and sell cryptocurrencies
-Project is under construction
+Project under construction for analisys of main indicators to receive Email, Slack and SMS alerts to buy and sell cryptocurrencies
 
 ## Getting Started
 
