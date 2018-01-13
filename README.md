@@ -1,27 +1,25 @@
 # Crypto-Alerts
 
-One Paragraph of project description goes here
+Analisys of main indicators to receive Email, Slack and SMS alerts to buy and sell cryptocurrencies
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Follow the instructions to build the script in your system
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+There are some dependences
 
 ```
-Give examples
+Stockstats 0.2.0  https://github.com/jealous/stockstats
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+Run in your command line
 
 ```
-Give the example
+pip install stockstats
 ```
 
 And repeat
