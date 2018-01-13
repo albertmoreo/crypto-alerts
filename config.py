@@ -1,1 +1,20 @@
-NUMBER_OF_PERIODS = 50
+#CUSTOMIZE CONFIGURATION
+##########################
+#EXCHANGE (currently only BITTREX allowed)
+EXCHANGE = 'BITTREX'
+#MARKET
+MARKET = 'BTC-XRP'
+#CANDLE INTERVAL
+CANDLE_INTERVAL_HOURS = 4
+##########################
+#FIN CUSTOMIZE CONFIGURATION
+
+
+def _EXCHANGE():
+    return EXCHANGE
+
+def _MARKET():
+    return MARKET
+
+def _CANDLE_INTERVAL():
+    return CANDLE_INTERVAL_HOURS

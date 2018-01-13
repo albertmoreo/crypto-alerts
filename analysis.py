@@ -1,46 +1,43 @@
-
-import json
-import array
 import time
-import config
-import globalvars
+import config as cfg
 import api_connect as api
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
 from datetime import datetime, timedelta
 
-#Global vars
-NUMBER_OF_PERIODS = 50
-CANDLE_4H = 4
+#Load config
+EXCHANGE = cfg._EXCHANGE()
+MARKET   = cfg._MARKET()
+INTERVAL = cfg._CANDLE_INTERVAL()
 
-#Obtain data from Bittrex
-candles = api.getBittrex("BTC-XRP")
+#Obtain data from Exchange API
+DATA_TICKS = api.getTicks(EXCHANGE,MARKET)
 
-#Read and struct data
-DATA = []
-count = len(candles)
+#Load and struct raw data
+CANDLES = []
+count = len(DATA_TICKS)
 while count > 0:
-    print(candles[count-1])
-    DATA.append(candles[count-1])
-    count = count-CANDLE_4H
-print(DATA)
+    print(DATA_TICKS[count-1])
+    CANDLES.append(DATA_TICKS[count-1])
+    count = count-INTERVAL
+print(CANDLES)
 
-#Generate CSV - stockstats format
+#Generate historical data file (stockstats format)
 ts = str(int(time.time()))
 file = open(ts+'.csv','w')
 file.write('date,amount,close,high,low,open,volume\n')
-count = len(DATA)
+count = len(CANDLES)
 while count > 0:
-    file.write(DATA[count-1]['T']+','+str(DATA[count-1]['BV'])+',')
-    file.write(str(DATA[count-1]['C'])+','+str(DATA[count-1]['H'])+','+str(DATA[count-1]['L'])+','+str(DATA[count-1]['O'])+',')
-    file.write(str(DATA[count-1]['V'])+'\n')
+    file.write(CANDLES[count-1]['T']+','+str(CANDLES[count-1]['BV'])+',')
+    file.write(str(CANDLES[count-1]['C'])+','+str(CANDLES[count-1]['H'])+','+str(CANDLES[count-1]['L'])+','+str(CANDLES[count-1]['O'])+',')
+    file.write(str(CANDLES[count-1]['V'])+'\n')
     count = count-1
 file.close()
 
-#Read CSV
+#Load historical data file
 stock = Sdf.retype(pd.read_csv(ts+'.csv'))
 
-#Calculate MACD, MACDsignal and Histogram
+#Calculate MACD, MACD-signal and MACD-histogram
 MACD =  stock['macd']
 MACDS = stock['macds']
 MACDH = stock['macdh']
@@ -48,7 +45,7 @@ print(MACD)
 print(MACDS)
 print(MACDH)
 
-#Save Histogram results
+#Save MACD-histogram results in MACDH file
 file = open('MACDH_'+ts+'.csv','w')
 file.write('time,macdh\n')
 for key in MACDH.keys():
