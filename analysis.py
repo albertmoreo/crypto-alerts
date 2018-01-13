@@ -18,7 +18,7 @@ candles = api.getBittrex("BTC-XRP")
 
 #Read and struct data
 DATA = []
-count = len(candles)
+count = len(candles) 
 while count > 0:
     print(candles[count-1])
     DATA.append(candles[count-1])
