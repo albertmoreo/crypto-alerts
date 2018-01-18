@@ -5,7 +5,7 @@ EXCHANGE = 'BITTREX'
 #MARKET
 MARKET = 'BTC-XRP'
 #CANDLE INTERVAL (currently only 'day' or 'hour' allowed)
-CANDLE_INTERVAL_HOURS = 'day'
+CANDLE_INTERVAL_HOURS = 'hour'
 ##########################
 #FIN CUSTOMIZE CONFIGURATION
 
