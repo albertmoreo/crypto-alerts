@@ -11,7 +11,7 @@ MARKET   = cfg._MARKET()
 INTERVAL = cfg._CANDLE_INTERVAL()
 
 #Obtain data from Exchange API
-DATA_TICKS = api.getTicks(EXCHANGE,MARKET)
+DATA_TICKS = api.getTicks(EXCHANGE,MARKET,INTERVAL)
 
 #Load and struct raw data
 CANDLES = []
@@ -45,9 +45,44 @@ print(MACD)
 print(MACDS)
 print(MACDH)
 
-#Save MACD-histogram results in MACDH file
+def BUY():
+    file.write('BUY')
+    LAST_ACTION = 'BUY'
+
+def SELL():
+    file.write('SELL')
+    LAST_ACTION = 'SELL'
+
+def REBUY():
+    file.write('REBUY')
+    LAST_ACTION = 'BUY'
+
+def NO_ACTION():
+    file.write('')
+
+
+#Save MACD-histogram results and actions in MACDH file
+#TODO ACTIONS
+LAST_ACTION = ''
 file = open('MACDH_'+ts+'.csv','w')
-file.write('time,macdh\n')
+file.write('time;macdh;close;action\n')
+count = len(CANDLES)-1
+countM = 0
 for key in MACDH.keys():
-    file.write(key+','+str(MACDH[key])+'\n')
+    file.write(key+';'+str(MACDH[key]).replace('.',',')+';'+str(CANDLES[count]['C']).replace('.',',')+';')
+    if MACDH[key]>0:
+        if MACDH[countM-1]<0:
+            BUY()
+        if MACDH[countM]<MACDH[countM-1] and LAST_ACTION=='BUY':
+            SELL()
+        if MACDH[countM]>MACDH[countM-1] and LAST_ACTION=='SELL':
+            REBUY()
+    else:
+        if LAST_ACTION=='BUY':
+            SELL()
+        else:
+            NO_ACTION()
+    file.write('\n')
+    count = count - 1
+    countM = countM + 1
 file.close()
