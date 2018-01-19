@@ -17,4 +17,4 @@ def _MARKET():
     return MARKET
 
 def _CANDLE_INTERVAL():
-        return 1
+        return 12
